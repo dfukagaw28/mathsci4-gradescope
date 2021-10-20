@@ -37,116 +37,33 @@ class TestSimple(unittest.TestCase):
     @weight(1)
     @number("1")
     def test_1(self):
-        """HW03: Case 1"""
-        sinput = '32\n25\n9\n'
-        ret, sout, serr = self._subproc('hw03.py', sinput)
-        expected = '最も大きい奇数は 25 です。\n'
+        """HW04: Case 1"""
+        sinput = '15\n22\n23\n32\n30\n22\n4\n10\n38\n24\n'
+        ret, sout, serr = self._subproc('hw04.py', sinput)
+        expected = '最も大きい奇数は 23 です。\n'
         self.assertEqual(sout, expected)
 
     @weight(1)
     @number("2")
     def test_2(self):
-        """HW03: Case 2"""
-        sinput = '22\n44\n66\n'
-        ret, sout, serr = self._subproc('hw03.py', sinput)
+        """HW04: Case 2"""
+        sinput = '10\n20\n30\n40\n50\n60\n70\n80\n90\n100\n'
+        ret, sout, serr = self._subproc('hw04.py', sinput)
         expected = '奇数がありません。\n'
         self.assertEqual(sout, expected)
 
-    @weight(1)
+    @weight(8)
     @number("3")
     def test_3(self):
-        """HW03: Case 3"""
-        # すべて奇数で異なる
-        for case in permutations([11,33,55]):
-            sinput = N(case)
-            ret, sout, serr = self._subproc('hw03.py', sinput)
-            expected = ANS(55)
-            self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("4")
-    def test_4(self):
-        """HW03: Case 4"""
-        # 異なる奇数2と偶数1
-        for lst in [[25,15,30], [35,15,20], [35,10,25]]:
-            ans = lst[0]
-            for case in permutations(lst):
-                sinput = N(case)
-                ret, sout, serr = self._subproc('hw03.py', sinput)
-                expected = ANS(ans)
-                self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("5")
-    def test_5(self):
-        """HW03: Case 5"""
-        # 奇数1と異なる偶数2
-        for lst in [[15,20,30], [25,10,30], [35,10,20]]:
-            ans = lst[0]
-            for case in permutations(lst):
-                sinput = N(case)
-                ret, sout, serr = self._subproc('hw03.py', sinput)
-                expected = ANS(ans)
-                self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("6")
-    def test_6(self):
-        """HW03: Case 6"""
-        # 奇,奇=奇
-        for lst in [[33,11,11], [55,55,33]]:
-            ans = lst[0]
-            for case in permutations(lst):
-                sinput = N(case)
-                ret, sout, serr = self._subproc('hw03.py', sinput)
-                expected = ANS(ans)
-                self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("7")
-    def test_7(self):
-        """HW03: Case 7"""
-        # 奇,偶=偶
-        for lst in [[22,22,33], [33,44,44]]:
-            ans = 33
-            for case in permutations(lst):
-                sinput = N(case)
-                ret, sout, serr = self._subproc('hw03.py', sinput)
-                expected = ANS(ans)
-                self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("8")
-    def test_8(self):
-        """HW03: Case 8"""
-        # 奇=奇,偶
-        for lst in [[33,22,33], [33,44,44]]:
-            ans = 33
-            for case in permutations(lst):
-                sinput = N(case)
-                ret, sout, serr = self._subproc('hw03.py', sinput)
-                expected = ANS(ans)
-                self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("9")
-    def test_9(self):
-        """HW03: Case 9"""
-        # 奇=奇=奇
-        sinput = N([33,33,33])
-        ans = 33
-        ret, sout, serr = self._subproc('hw03.py', sinput)
-        expected = ANS(ans)
-        self.assertEqual(sout, expected)
-
-    @weight(1)
-    @number("10")
-    def test_10(self):
-        """HW03: Case 10"""
-        # 偶,偶,偶
-        for lst in [[22,22,22], [22,44,44], [22,22,44]]:
-            for case in permutations(lst):
-                sinput = N(case)
-                ret, sout, serr = self._subproc('hw03.py', sinput)
-                expected = ANS(None)
-                self.assertEqual(sout, expected)
+        """HW04: Case 3"""
+        for i in range(10):
+            for j in range(10):
+                if i != j:
+                    x = [10,20,30,40,50,60,70,80,90,100]
+                    random.shuffle(x)
+                    x[i] = 33
+                    x[j] = 55
+                    sinput = N(x)
+                    ret, sout, serr = self._subproc('hw04.py', sinput)
+                    expected = ANS(55)
+                    self.assertEqual(sout, expected)
