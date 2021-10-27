@@ -79,19 +79,30 @@ class TestLoopDivisors(unittest.TestCase):
 
     @weight(1)
     @number("2.5")
-    @leaderboard("実行時間（演習4-2）", "asc")
     def test_5(self):
         """Ex04-2: Case 5"""
-        pairs = [
-            (1 << 25, 26),
-            (4567*4591, 4),
-            (14794688, 2),
-        ]
-        total_time = 0
-        for x, y in pairs:
-            start_time = time.time()
-            ret, sout, serr = self._subproc(FILENAME, N(x))
-            total_time += time.time() - start
-            expected = N(y)
-            self.assertEqual(sout, expected)
-        set_leaderboard_value(total_time)
+        x = 1 << 25
+        y = 26
+        ret, sout, serr = self._subproc(FILENAME, N(x))
+        expected = N(y)
+        self.assertEqual(sout, expected)
+
+    @weight(1)
+    @number("2.6")
+    def test_6(self):
+        """Ex04-2: Case 6"""
+        x = 4567*4591
+        y = 4
+        ret, sout, serr = self._subproc(FILENAME, N(x))
+        expected = N(y)
+        self.assertEqual(sout, expected)
+
+    @weight(1)
+    @number("2.7")
+    def test_7(self):
+        """Ex04-2: Case 7"""
+        x = 12345701
+        y = 2
+        ret, sout, serr = self._subproc(FILENAME, N(x))
+        expected = N(y)
+        self.assertEqual(sout, expected)
