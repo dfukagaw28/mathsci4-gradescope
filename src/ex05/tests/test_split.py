@@ -1,4 +1,6 @@
+import random
 import re
+import string
 import subprocess
 
 import unittest
@@ -6,7 +8,7 @@ from gradescope_utils.autograder_utils.decorators import weight, number
 #from hwXX import main
 from config import filenames
 
-FILENAME = 'ex04_1.py'
+FILENAME = 'ex05_2.py'
 
 def N(x):
     if isinstance(x, str):
@@ -38,28 +40,32 @@ class TestLoopTriangle(unittest.TestCase):
         pass
 
     @weight(1)
-    @number("1.1")
-    def test_1(self):
-        """Ex04-1: Case 1"""
-        n = 3
-        ret, sout, serr = self._subproc(FILENAME, sinput=N(n))
-        expected = ANS(n)
+    @number("2.1")
+    def test_case1(self):
+        """Ex05-2: Case 1"""
+        sinput = 'apple,orange,banana\n'
+        ret, sout, serr = self._subproc(FILENAME, sinput)
+        expected = 'apple\norange\nbanana\n'
         self.assertEqual(sout, expected)
 
     @weight(1)
-    @number("1.2")
-    def test_2(self):
-        """Ex04-1: Case 2"""
-        n = 5
-        ret, sout, serr = self._subproc(FILENAME, sinput=N(n))
-        expected = ANS(n)
+    @number("2.2")
+    def test_case2(self):
+        """Ex05-2: Case 2"""
+        sinput = 'doshisha\n'
+        ret, sout, serr = self._subproc(FILENAME, sinput)
+        expected = 'doshisha\n'
         self.assertEqual(sout, expected)
 
-    @weight(1)
-    @number("1.3")
+    @weight(8)
+    @number("2.3")
     def test_3(self):
-        """Ex04-1: Case 3"""
-        n = 10
-        ret, sout, serr = self._subproc(FILENAME, sinput=N(n))
-        expected = ANS(n)
-        self.assertEqual(sout, expected)
+        """Ex05-2: Case 3"""
+        x = [random.randint(1,10) for _ in range(10)]
+        x = [''.join([random.choice(string.ascii_letters) for _ in range(xj)]) for xj in x]
+        for k in range(1, len(x) + 1):
+            sinput = ','.join(x[:k]) + '\n'
+            ret, sout, serr = self._subproc(FILENAME, sinput)
+            #expected = sinput.translate(str.maketrans({',': '\n'}))
+            expected = '\n'.join(x[:k]) + '\n'
+            self.assertEqual(sout, expected)

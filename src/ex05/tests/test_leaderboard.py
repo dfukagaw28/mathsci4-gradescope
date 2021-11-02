@@ -60,19 +60,19 @@ class TestLeaderboard(unittest.TestCase):
         value = sum([os.stat(fn).st_size for fn in filenames])
         set_leaderboard_value(value)
 
-    @leaderboard("実行時間（演習4-2）", "asc")
-    def test_leaderboard_exec_time(self, set_leaderboard_value=None):
-        """Sets a leaderboard value"""
-        pairs = [
-            (1 << 25, 26),
-            (4567*4591, 4),
-            (14794688, 2),
-        ]
-        total_time = 0
-        for x, y in pairs:
-            start_time = get_clock()
-            xxx = get_clock2()
-            ret, sout, serr = self._subproc('ex04_2.py', N(x))
-            total_time += get_clock() - start_time
-            total_time += get_clock2() - xxx
-        set_leaderboard_value(total_time)
+    #@leaderboard("実行時間（演習4-2）", "asc")
+    #def test_leaderboard_exec_time(self, set_leaderboard_value=None):
+    #    """Sets a leaderboard value"""
+    #    pairs = [
+    #        (1 << 25, 26),
+    #        (4567*4591, 4),
+    #        (14794688, 2),
+    #    ]
+    #    total_time = 0
+    #    for x, y in pairs:
+    #        start_time = get_clock()
+    #        xxx = get_clock2()
+    #        ret, sout, serr = self._subproc('ex04_2.py', N(x))
+    #        total_time += get_clock() - start_time
+    #        total_time += get_clock2() - xxx
+    #    set_leaderboard_value(total_time)
