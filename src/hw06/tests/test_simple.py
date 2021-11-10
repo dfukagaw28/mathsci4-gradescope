@@ -7,7 +7,7 @@ import subprocess
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-FILENAME = 'hw05.py'
+FILENAME = 'hw06.py'
 
 def N(x):
     if isinstance(x, str):
@@ -16,15 +16,16 @@ def N(x):
         return ''.join(N(v) for v in x)
     return str(x) + '\n'
 
-def ANS(x):
-    if x is not None and x > 0:
-        return f'最も大きい奇数は {x} です。\n'
-    else:
-        return '奇数がありません。\n'
-
 def random_float_str(a=0.0, b=1.0, prec=5):
     x = a + random.random() * (b - a)
     return f'{x:.{prec}f}'
+
+def isFloat(s):
+    try:
+        float(s)
+    except:
+        return False
+    return True
 
 class TestSimple(unittest.TestCase):
     def _subproc(self, filename, input):
@@ -38,6 +39,13 @@ class TestSimple(unittest.TestCase):
         self.assertEqual(serr.decode(), '')
         return p.returncode, sout.decode(), serr.decode()
 
+    def _check(self, sin, sout):
+        x, eps = map(float, sin.split())
+        self.assertTrue(isFloat(sout))
+        ans = float(sout)
+        err = abs(ans ** 3 - x)
+        self.assertTrue(err < eps)
+
     def setUp(self):
         pass
 
@@ -45,39 +53,26 @@ class TestSimple(unittest.TestCase):
     @number("1")
     def test_case1(self):
         """Case 1"""
-        sinput = '1.23,2.4,3.123\n'
+        sinput = '27\n0.01\n'
         ret, sout, serr = self._subproc(FILENAME, sinput)
-        expected = '6.753\n'
-        self.assertEqual(sout, expected)
+        self._check(sinput, sout)
 
     @weight(1)
     @number("2")
     def test_case2(self):
         """Case 2"""
-        sinput = '0.2,0.2,0.3\n'
+        sinput = '0.125\n0.01\n'
         ret, sout, serr = self._subproc(FILENAME, sinput)
-        expected = '0.7\n'
-        self.assertEqual(sout, expected)
-
-    #@weight(0)
-    #@number("3")
-    #def test_case3(self):
-    #    """Case 3"""
-    #    sinput = '0.2,0.2,0.2\n'
-    #    ret, sout, serr = self._subproc(FILENAME, sinput)
-    #    expected = '0.6\n'
-    #    self.assertEqual(sout, expected)
+        self._check(sinput, sout)
 
     @weight(8)
-    @number("4")
-    def test_case4(self):
-        """Case 4"""
+    @number("3")
+    def test_case3(self):
+        """Case 3"""
         for k in range(1,11):
-            x = [random_float_str(0, 10, 5) for _ in range(k)]
-            y = [Decimal(xj) for xj in x]
-            s = ','.join(x)
-            sinput = s + '\n'
+            x_str = random_float_str(-1e5, 1e5, 5)
+            x = float(x_str)
+            eps = 1e-9
+            sinput = f'{x_str}\n{eps}\n'
             ret, sout, serr = self._subproc(FILENAME, sinput)
-            sout = Decimal(sout)
-            expected = sum(y)
-            self.assertTrue(abs(sout - expected) < 1e-10)
+            self._check(sinput, sout)
