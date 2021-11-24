@@ -9,45 +9,7 @@ from gradescope_utils.autograder_utils.decorators import weight, number
 
 from hw07 import souwa
 
-FILENAME = 'hw07.py'
-
-def N(x):
-    if isinstance(x, str):
-        return str(x) + '\n'
-    if hasattr(x, '__iter__'):
-        return ''.join(N(v) for v in x)
-    return str(x) + '\n'
-
-def random_float_str(a=0.0, b=1.0, prec=5):
-    x = a + random.random() * (b - a)
-    return f'{x:.{prec}f}'
-
-def isFloat(s):
-    try:
-        float(s)
-    except:
-        return False
-    return True
-
 class TestSimple(unittest.TestCase):
-    def _subproc(self, filename, input):
-        p = subprocess.Popen(
-            ['python3', filename],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        sout, serr = p.communicate(input=input.encode())
-        self.assertEqual(serr.decode(), '')
-        return p.returncode, sout.decode(), serr.decode()
-
-    def _check(self, sin, sout):
-        x, eps = map(float, sin.split())
-        self.assertTrue(isFloat(sout))
-        ans = float(sout)
-        err = abs(ans ** 3 - x)
-        self.assertTrue(err < eps)
-
     def setUp(self):
         pass
 
