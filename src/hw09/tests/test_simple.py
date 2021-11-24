@@ -35,7 +35,7 @@ class TestSimple(unittest.TestCase):
 
     @weight(1)
     @number("2")
-    def test_(self):
+    def test_case1(self):
         """Case 1"""
         r, h = 3, 3
         a = Cylinder(r, h)
@@ -45,7 +45,7 @@ class TestSimple(unittest.TestCase):
 
     @weight(1)
     @number("3")
-    def test_(self):
+    def test_case2(self):
         """Case 2"""
         r, h = 10, 5
         a = Cylinder(r, h)
