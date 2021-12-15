@@ -1,0 +1,3 @@
+filenames = [
+    'myawesomemodule.py',
+]
