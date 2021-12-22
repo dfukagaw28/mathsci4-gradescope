@@ -1,3 +1,3 @@
 filenames = [
-    'myawesomemodule.py',
+    'hw12.py',
 ]

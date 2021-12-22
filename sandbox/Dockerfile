@@ -26,6 +26,8 @@ RUN dos2unix /autograder/run_autograder /autograder/source/setup.sh
 
 RUN chmod +x /autograder/run_autograder
 
+RUN python3 -m pip install pandas
+
 #RUN apt-get update \
 #    && bash /autograder/source/setup.sh \
 #    && apt-get clean \

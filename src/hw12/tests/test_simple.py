@@ -1,46 +1,89 @@
 import math
 
+import pandas as pd
+
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from myawesomemodule import factorial
+import hw12
+
+COLUMNS_1 = (
+    'sales_ymd',
+    'sales_epoch',
+    'store_cd',
+    'receipt_no',
+    'receipt_sub_no',
+    'customer_id',
+    'product_cd',
+    'quantity',
+    'amount',
+)
 
 class TestSimple(unittest.TestCase):
     def setUp(self):
-        pass
+        self.df_receipt = hw12.load_csv('receipt')
 
     @weight(5)
     @number("0")
     def test_case0(self):
         """Case 0"""
-        self.assertTrue(callable(factorial))
+        for i in range(1, 6):
+            name = 'P%03d' % i
+            self.assertIn(name, dir(hw12), f'{name}が見つかりません')
+            self.assertTrue(callable(hw12.__dict__[name]), f'{name}は関数でなければなりません')
 
     @weight(1)
     @number("1")
     def test_case1(self):
-        """Case 1"""
-        self.assertEqual(factorial(5), 120)
+        """P-001"""
+        df = hw12.P001(self.df_receipt)
+        self.assertIsInstance(df, pd.core.frame.DataFrame)
+        self.assertEqual(len(df), 10)
+        self.assertEqual(tuple(df.columns), COLUMNS_1)
 
     @weight(1)
     @number("2")
     def test_case2(self):
-        """Case 2"""
-        self.assertEqual(factorial(1), 1)
+        """P-002"""
+        COLUMNS = ('sales_ymd', 'customer_id', 'product_cd', 'amount')
+        df = hw12.P002(self.df_receipt)
+        self.assertIsInstance(df, pd.core.frame.DataFrame)
+        self.assertEqual(len(df), 10)
+        self.assertEqual(tuple(df.columns), COLUMNS)
 
     @weight(1)
     @number("3")
     def test_case3(self):
-        """Case 3"""
-        self.assertEqual(factorial(0), 1)
+        """P-003"""
+        COLUMNS = ('sales_date', 'customer_id', 'product_cd', 'amount')
+        df = hw12.P003(self.df_receipt)
+        self.assertIsInstance(df, pd.core.frame.DataFrame)
+        self.assertEqual(len(df), 10)
+        self.assertEqual(tuple(df.columns), COLUMNS)
 
     @weight(1)
     @number("4")
     def test_case4(self):
-        """Case 4"""
-        self.assertEqual(factorial(10), 3628800)
+        """P-004"""
+        COLUMNS = ('sales_ymd', 'customer_id', 'product_cd', 'amount')
+        INDEX = (
+            36, 9843, 21110, 27673, 27840, 28757,
+            39256, 58121, 68117, 72254, 88508, 91525
+        )
+        df = hw12.P004(self.df_receipt)
+        self.assertIsInstance(df, pd.core.frame.DataFrame)
+        self.assertEqual(len(df), len(INDEX))
+        self.assertEqual(tuple(df.columns), COLUMNS)
+        self.assertEqual(tuple(df.index), INDEX)
 
     @weight(1)
     @number("5")
     def test_case5(self):
-        """Case 5"""
-        self.assertEqual(factorial(100), 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000)
+        """P-005"""
+        COLUMNS = ('sales_ymd', 'customer_id', 'product_cd', 'amount')
+        INDEX = (36, 68117, 72254)
+        df = hw12.P005(self.df_receipt)
+        self.assertIsInstance(df, pd.core.frame.DataFrame)
+        self.assertEqual(len(df), len(INDEX))
+        self.assertEqual(tuple(df.columns), COLUMNS)
+        self.assertEqual(tuple(df.index), INDEX)
